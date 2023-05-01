@@ -1,8 +1,8 @@
-# GroupAvail Developer
+# GroupAvail - User and Developer Information
 
 ## Overview
 
-GroupAvail is a Gmail Add On  that searches Googlers' calendars, generates  and inserts a formatted list of merged available dates and times in the Gmail message body. The list can then be edited and shared with external customers and partners in the email.  Editable text, like what is shown below, is inserted into the email body wherever the cursor is located when the add-on is run:
+GroupAvail is a Gmail [Workspace Add On](https://developers.google.com/workspace/add-ons/overview)  that searches Googlers' calendars, generates  and inserts a formatted list of merged available dates and times in the Gmail message body. The list can then be edited and shared with external customers and partners in the email.  Editable text, like what is shown below, is inserted into the email body wherever the cursor is located when the add-on is run:
  ```
       Available Times (ET)
          **  Mon (May 1) :** 
@@ -31,6 +31,12 @@ The GroupAvail Add-On also works in users' mobile Gmail application. Instead of 
 
 The screenshots below show the location of the menu, menu item, then the form and appearance when run.
 ![alt_text](images/mobilescreens.png "")
+
+## Privacy
+GroupAvail captures no data except for diagnostic logging and (optionally) Google Analytics for usage. In its logging, GroupAvail makes use of Cloud Logging from Apps Script for diagnostic purposes with the following notable details:
+- GroupAvail does not log any user identities, email addresses or meeting descriptions (details are redacted for user email addresses and the description length for meeting descriptions in case matching to specific user supplied data is required outside of the log data.)
+- GroupAvail logged debug data includes the user request data (minus identities/email addresses),  meeting time slots to allow diagnostics for issues that users report.
+- For Google Analytics data, the analytics ID must be set up for the organization using GroupAvail. When analytics are used, user identiy is not included in the tracking (only the following event occurances and their date/time: Add-On Installation, Add-On removal and Execution of a GroupAvail availability search. 
 
 ## Limitations
 * GroupAvail currently only supports American and European time zones and date/time formatting output options. The user interface and all output is English only. 
