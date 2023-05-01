@@ -1,11 +1,6 @@
 # GroupAvail Developer
 
-
-[TOC]
-
-
-
-## Overview {#overview}
+## Overview
 
 GroupAvail is a Gmail Add On  that searches Googlers' calendars, generates  and inserts a formatted list of merged available dates and times in the Gmail message body. The list can then be edited and shared with external customers and partners in the email.  Editable text, like what is shown below, is inserted into the email body wherever the cursor is located when the add-on is run:
  ```
@@ -20,21 +15,20 @@ GroupAvail is a Gmail Add On  that searches Googlers' calendars, generates  and 
 ```         
 This document provides a high-level overview of processes to get started, update, test, debug, deploy and monitor the GroupAvail AddOn.
 
-
-## Development and Testing Notes {#development-and-testing-notes}
+## Development and Testing Notes
 
 The development of GroupAvail is much the same as any other AppsScript code, with the addition of artifacts needed to support deploying and running GroupAvail as a Workspace AddOn with specific privileges for Calendar and Gmail feature access. Notes on the specific files within the project:
 
-1. **<code>appsscript.json</code></strong> is a [manifest](https://developers.google.com/apps-script/concepts/manifests) that specifies properties for the Add On deployment including Workspace trigger connections to Apps Script functions, security Oauth scopes and related declarations (to allow the user to see and accept required privileges) and information describing how the Add On is to appear in the Gmail interface. This file name and its json specified parameters are prescribed by AppsScript deployment tooling and partially managed in the IDE’s project properties (e.g. GCP project and Cloud Logging settings).
-2. <strong><code>GmailAddOn.js</code></strong>: The AddOn UI and triggers that perform capture of user parameters and drive the operation of the actions.
-3. <strong><code>GroupAvailLib.j</code>s</strong>: Includes the core functions that perform the calendar search/merge and extraction of shared availability time for specified users and date/time parameters.
-4. <strong><code>TimeSupport.js</code></strong>: Library of supporting functions that handle timezone mapping and differences/conversions in time/date format in the Calendar API, the Addon API and Javascript.  
-5. <strong><code>TestCases.js</code>:  </strong>A small set of javascript stubs used during development to incremental build/test portions of the app. Its future could include a more rigorous set of test cases/assertions and ensure better code coverage.
-
+1. <strong><code>Environment.js</code></strong> contains global javascript variables that you will need to tailor to your deployment environment. This includes the domain, error message text, image locations, location of "about" content and more.
+2. <strong><code>appsscript.json</code></strong> is a [manifest](https://developers.google.com/apps-script/concepts/manifests) that specifies properties for the Add On deployment including Workspace trigger connections to Apps Script functions, security Oauth scopes and related declarations (to allow the user to see and accept required privileges) and information describing how the Add On is to appear in the Gmail interface. This file name and its json specified parameters are prescribed by AppsScript deployment tooling and partially managed in the IDE’s project properties (e.g. GCP project and Cloud Logging settings).
+3. <strong><code>GmailAddOn.js</code></strong>: The AddOn UI and triggers that perform capture of user parameters and drive the operation of the actions.
+4. <strong><code>GroupAvailLib.j</code>s</strong>: Includes the core functions that perform the calendar search/merge and extraction of shared availability time for specified users and date/time parameters.
+5. <strong><code>TimeSupport.js</code></strong>: Library of supporting functions that handle timezone mapping and differences/conversions in time/date format in the Calendar API, the Addon API and Javascript.  
+6. <strong><code>TestCases.js</code>:  </strong>A small set of javascript stubs used during development to incremental build/test portions of the app. Its future could include a more rigorous set of test cases/assertions and ensure better code coverage.
 
 
 ## Getting Started
-At the time of writing, the clasp commands to push the code to Apps Script IDE is being defined. To get started sooner, create a new Apps Script project and create the ".js" files from this project and manually copy/paste the code into each. You will also need to create and update the appscript.json file with configuration information that include details of the permissions required by the add on when deployed to Gmail.
+At the time of writing, a set of clasp commands that will push the code to Apps Script IDE from a command line TODO to write and test. To get started now, create a new Apps Script project and create the ".js" files from this project and manually copy/paste the code into each. You will also need to create and update the appscript.json file with configuration information that include details of the permissions required by the add on when deployed to Gmail.
 
 ## Working on GroupAvail
 
@@ -49,39 +43,24 @@ A very simple version string is specified at the top of GmailAddon.js. This stri
 
 After satisfactory testing using TestCases.js stubs and running the head version in your personal Gmail environment, you will next need to create a production deployment in the Apps Script editor. To start, select “Deploy” (more detail on Deployment is provided [here](https://developers.google.com/apps-script/concepts/deployments).)
 
-![alt_text](images/image1.png "image_tooltip")
-
+![alt_text](images/image1.png "")
 
 Next, select “**New Deployment**” from the Deploy menu.
 
-
-
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image2.png "image_tooltip")
+![alt_text](images/image2.png "")
 
 
 Add a description of the deployment for future IDE reference (this string is not displayed to users.)
 
-
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image3.png "image_tooltip")
+![alt_text](images/image3.png "")
 
 
 Click on the “**Deploy**” button.
-
-
-
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image4.png "image_tooltip")
-
-
+\
+\
+![alt_text](images/image4.png "")
+\
+\
 After this step, you will be presented with a long **Deployment ID **string that you must copy and save for later use as described in the Google Cloud project deployment process [here](#deploying-a-new-groupavail-version-to-pantheon).
 
 
@@ -89,104 +68,58 @@ After this step, you will be presented with a long **Deployment ID **string that
 
 Log On to your Google Cloud account and navigate to the GroupAvailProd project using the options at the top of the menu (you will separately need to be granted access to the project prior this step.)
 
-
-
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image5.png "image_tooltip")
+![alt_text](images/image5.png "")
 
 
 Search for **“Google Workspace Marketplace SDK” **in the search bar.
 
-
-
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image6.png "image_tooltip")
+![alt_text](images/image6.png "")
 
 
 Select “**MANAGE**”
 
-
-
-<p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image7.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image7.png "image_tooltip")
+![alt_text](images/image7.png "")
 
 
 And then “**API CONFIGURATION**”
 
-
-
-<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image8.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image8.png "image_tooltip")
+![alt_text](images/image8.png "")
 
 
 Update the deployment ID with the new deployment identifier from Apps Script Deployment in the field as shown below.
 
  \
 
-
-<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image9.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image9.png "image_tooltip")
+![alt_text](images/image9.png "")
 
 
 Paste the new ID from the Deployment in the Apps Script Editor (Deployment creation is outlined in [this section](#create-a-new-deployment))
 
 
-
-<p id="gdcalert10" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image10.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert11">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image10.png "image_tooltip")
+![alt_text](images/image10.png "")
 
 
 Scroll to the bottom of the page and click Save \
 
 
-<p id="gdcalert11" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image11.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert12">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
+![alt_text](images/image11.png "")
 
 
-![alt_text](images/image11.png "image_tooltip")
-
-
-
-## User Add-On Client Reloading  {#user-add-on-client-reloading}
+## User Add-On Client Reloading 
 
 A hard browser refresh on the tab/window running Gmail will force the latest deployment to load to the client runtime.
 
 **<Hold Shift Key> Refresh** Button
 
-
-
-<p id="gdcalert12" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image12.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert13">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image12.png "image_tooltip")
-
+![alt_text](images/image12.png "")
 
 Users can verify the GroupAvail version running in their Gmail environment by drafting an email and initiating a GroupAvail session. Check the version at the bottom of the GroupAvail pop-up input form to verify that the proper version is running (see the  GroupAvail site at GroupAvail for release notes.)
 
-
-
-<p id="gdcalert13" ><span style="color: red; font-weight: bold">>>>>  GDC alert: inline image link here (to images/image13.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert14">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>> </span></p>
-
-
-![alt_text](images/image13.png "image_tooltip")
-
-
+![alt_text](images/image13.png "")
 
 ## Maintaining The Workspace Marketplace Page
 
-<more to come>
-
+TODO: more to come
 
 ## Monitoring Usage Tracking and Logging {#monitoring-usage-tracking-and-logging}
 
