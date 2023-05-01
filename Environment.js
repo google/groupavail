@@ -32,11 +32,12 @@ const DOMAINREGEX = /@google.com/;
 const ICON_URL = "https://fonts.gstatic.com/s/i/googlematerialicons/date_range/v11/gm_blue-48dp/1x/gm_date_range_gm_blue_48dp.png";
 const LOGO_URL = "https://lh3.googleusercontent.com/-aCIapqbJqEc/YO1yHsEF3MI/AAAAAAAAAgE/xkNbuIl37lgKXaxamq3NXGTjLXJxpvJ6gCNcBGAsYHQ/s400/GroupAvailV2-128x128.png";
 
+
 /* Error text to display to users when GroupAvail encounters an error during use */
-const ERROR_MESSAGE = "\n\n</i>See <A href=\"https://sites.google.com/corp/google.com/groupavail/news\"> GroupAvail News</A> for information about known issues and where to report issues and get help.\n\n";
+const ERROR_MESSAGE = "\n\n</i>See <A href=\"https://YOUR_CONTENT_HERE\"> GroupAvail News</A> for information about known issues and where to report issues and get help.\n\n";
 
 /* set to the GA ID if Google Analytics is used to track usage  */
-const GOOGLE_ANALYTICS_ID = 'UA-197145930-1';
+const GOOGLE_ANALYTICS_ID = 'UA-NNNNNNNNN-1';
 
 /* URL of an internal web page describing GroupAvail to users */
-const ABOUT_URL = 'https://goto2.corp.google.com/groupavail';
+const ABOUT_URL = 'https://YOUR_ABOUT_PAGE_HERE';
