@@ -1,0 +1,51 @@
+{
+  "timeZone": "America/New_York",
+  "exceptionLogging": "STACKDRIVER",
+  "runtimeVersion": "V8",
+  "dependencies": {
+    "enabledAdvancedServices": [
+      {
+        "userSymbol": "Calendar",
+        "serviceId": "calendar",
+        "version": "v3"
+      }
+    ]
+  },
+  "addOns": {
+    "common": {
+      "name": "GroupAvail",
+      "logoUrl": "https://fonts.gstatic.com/s/i/googlematerialicons/date_range/v11/gm_blue-48dp/1x/gm_date_range_gm_blue_48dp.png",
+      "useLocaleFromApp": true,
+      "homepageTrigger": {
+        "runFunction": "onHomepage",
+        "enabled": true
+      },
+      "universalActions": [
+        {
+          "label": "Learn more about GroupAvail",
+          "openLink": "https://goto2.corp.google.com/groupavail"
+        }
+      ]
+    },
+    "gmail": {
+      "composeTrigger": {
+        "selectActions": [
+          {
+            "text": "GroupAvail: Insert Availability",
+            "runFunction": "onGmailCompose"
+          }
+        ],
+        "draftAccess": "METADATA"
+      }
+    }
+  },
+  "oauthScopes": [
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/gmail.addons.current.message.metadata",
+    "https://www.googleapis.com/auth/calendar.readonly",
+    "https://www.googleapis.com/auth/gmail.addons.current.action.compose",
+    "https://www.googleapis.com/auth/gmail.addons.current.message.readonly",
+    "https://www.googleapis.com/auth/gmail.addons.execute",
+    "https://www.googleapis.com/auth/script.locale"
+  ]
+}
