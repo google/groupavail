@@ -1,8 +1,8 @@
-# GroupAvail Developer
+# GroupAvail - User and Developer Information
 
 ## Overview
 
-GroupAvail is a Gmail Add On  that searches Googlers' calendars, generates  and inserts a formatted list of merged available dates and times in the Gmail message body. The list can then be edited and shared with external customers and partners in the email.  Editable text, like what is shown below, is inserted into the email body wherever the cursor is located when the add-on is run:
+GroupAvail is a Gmail [Workspace Add On](https://developers.google.com/workspace/add-ons/overview)  that searches Googlers' calendars, generates  and inserts a formatted list of merged available dates and times in the Gmail message body. The list can then be edited and shared with external customers and partners in the email.  Editable text, like what is shown below, is inserted into the email body wherever the cursor is located when the add-on is run:
  ```
       Available Times (ET)
          **  Mon (May 1) :** 
@@ -13,7 +13,38 @@ GroupAvail is a Gmail Add On  that searches Googlers' calendars, generates  and 
              11:30 am to 01:30 pm 
              04:00 pm to 05:00 pm
 ```         
-This document provides a high-level overview of processes to get started, update, test, debug, deploy and monitor the GroupAvail AddOn.
+This document provides a high-level overview of usage and processes to get started, update, test, debug, deploy and monitor the GroupAvail AddOn.
+
+## Usage
+Users typically install GroupAvail from the organization's Workspace Marketplace. (Instructions below describe the developer deployment processes.)
+Once installed, a blue calendar image button is added to the bottom of the Gmail Compose window like this:
+
+![alt_text](images/groupavailbutton.png "")
+
+After the user enters to, cc and bcc email addresses (from their organization) into the GMail compose window fields, they can then push the blue button and will be prompted for more information like this:
+
+![alt_text](images/groupavailform.png "")
+
+After providing the paremeters in the form to specify date/time range, timezone and more, selecting the "Insert Availability" button will directly insert the formated schedule availability into the email body wherever the cursor was when the steps above were initiated. 
+## Mobile Support
+The GroupAvail Add-On also works in users' mobile Gmail application. Instead of starting with a blue icon in the Gmail compose window tray, a menu item "Insert from GroupAvail" is added to the Gmail App Compose menu (the three vertical dots in the upper right corner of the screen.) When the GroupAvail menu item is selected, the behavior of the mobile add-on is identical to the web based version except that native mobile UI look and feel for date and time pickers are used.
+
+The screenshots below show the location of the menu, menu item, then the form and appearance when run.
+![alt_text](images/mobilescreens.png "")
+
+## Privacy
+GroupAvail captures no data except for diagnostic logging and (optionally) Google Analytics for usage. In its logging, GroupAvail makes use of Cloud Logging from Apps Script for diagnostic purposes with the following notable details:
+- GroupAvail does not log any user identities, email addresses or meeting descriptions (details are redacted for user email addresses and the description length for meeting descriptions in case matching to specific user supplied data is required outside of the log data.)
+- GroupAvail logged debug data includes the user request data (minus identities/email addresses),  meeting time slots to allow diagnostics for issues that users report.
+- For Google Analytics data, the analytics ID must be set up for the organization using GroupAvail. When analytics are used, user identiy is not included in the tracking (only the following event occurances and their date/time: Add-On Installation, Add-On removal and Execution of a GroupAvail availability search. 
+
+## Limitations
+* GroupAvail currently only supports American and European time zones and date/time formatting output options. The user interface and all output is English only. 
+* Based on conventions in the the initially deployed groups using GroupAvail, the available time search assumes that unaccepted invitations are to be included in available time (unlike the Free/Busy view which treats unaccepted calendar entries as blocked.)
+* Start and end times are rounded to the nearest 15 minute time  - Blocked times will be either made later (start time rounded up)  or earlier (end time rounded down) to establish availability. 
+* Start end end times are based on GroupAvail parameters only and calendar working hours are not used to limit availability (the Calendar API does not currently make these calendar settings available.)
+* An evident defect in either GMail Smart Compose or the Workspace Add On CardService used by GroupAvail causes the Add On to insert the schedule availability content inside of and above the  +<email address> entry when used to add addresses to an email using the feature. The work around is to move the cursor above the +<email address>  entry before launching GroupAvail, and cut/paste the output to the desired location in the email body. 
+
 
 ## Development and Testing Notes
 
@@ -56,11 +87,7 @@ Add a description of the deployment for future IDE reference (this string is not
 
 
 Click on the “**Deploy**” button.
-\
-\
-![alt_text](images/image4.png "")
-\
-\
+
 After this step, you will be presented with a long **Deployment ID **string that you must copy and save for later use as described in the Google Cloud project deployment process [here](#deploying-a-new-groupavail-version-to-pantheon).
 
 
@@ -127,4 +154,6 @@ A one-pixel image Google Analytics tracker URL is embedded in the user input for
 
 The Apps Script code is also instrumented with selected Logging statements (which are routed to Cloud Logging by the Apps Script runtime). Logs are available in the GCP project used above. 
 
-No user specific information is collected (including emails of users/schedulees and calendar entry subjects.)
+No user specific information is collected (including emails of users/schedulees and calendar entry subjects.) 
+ 
+ 
