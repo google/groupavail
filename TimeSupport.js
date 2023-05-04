@@ -19,22 +19,29 @@
  */
 
 /**
- * Convert date from Card UI to javascript date
- * The DatePicker always returns a date in UTC even when user is choosing the date in their timezone. 
- * This function moves the date to the proper timezone based on user specified timezone
+ * Convert date from UI (object with ms since epoch) to javascript date
+ * For unknown reasons, the DatePicker always returns a date in UTC even 
+ * when user is choosing the date in their timezone. This hack moves the date 
+ * to the proper timezone based on user specified timezone
  * @param {object} d - date object from Card UI
  * @param {object} ianatz - IANA Time Zone associated with the user
  */
 function makeDateFromDateField(d_in, ianatz) {
   // Changed on 3/2/2023 - (undocumented change to input from card UI events from msSinceEpoch integer to a JSON string with fields.)
-  var d = JSON.parse(d_in);
+  //  var d = JSON.parse(d_in);
+
+// Unchanged on 5/5/2023 whene prior behavior restored.
+  var d = d_in.msSinceEpoch;
+
   var userTZDiff = tzDiff(ianatz);
   var utcTZDiff = tzDiff("UTC"); // UI Date Picker always returns date relative to UTC.
 
   var diff = userTZDiff - utcTZDiff; // Move the UTC date based on the user specified timezone.
 
-  var ret =  new Date(parseInt(d.dateTimeMS) + diff);
-// prior version -saved  var ret =  new Date(d.msSinceEpoch + diff);
+// Change undone on 5/5/2023
+// var ret =  new Date(parseInt(d.dateTimeMS) + diff);
+/// prior version -saved   on 3/2.
+  var ret =  new Date(d + diff);
   
   Logger.log("makeDateFromDateField " + d + " output tz="+ ianatz +' diff ' + diff + "=user " + userTZDiff +"- utc "+ utcTZDiff + ' d= ' + d + ' d.dateTimeMS='+ d.dateTimeMS + " dict " + d["dateTimeMS"] + " " + typeof(d) +" "+ typeof(d.dateTimeMS) + " =?" + parseInt(d.dateTimeMS)+ '  ret=' + ret + " " + new Date().getMilliseconds());
   return ret;
@@ -47,7 +54,10 @@ function makeDateFromDateField(d_in, ianatz) {
  */
 function makeDateFromTimeField(t_in, ianatz) {
   // Changed on 3/2/2023 - (undocumented change to input from card UI events)
-  var t = JSON.parse(t_in);
+
+//  var t = JSON.parse(t_in); // Interim workaround for issue in type released in march
+// Unchanged on 5/5/2023 whene prior behavior restored.
+  var t = t_in; 
 
   // Difference for the timezone of the input
   var diff = tzDiff(ianatz);
@@ -55,10 +65,15 @@ function makeDateFromTimeField(t_in, ianatz) {
   var dt = new Date();
 
   // Get a new date object for the given time (in the server's TZ)
-  dt.setUTCHours(0);
-  dt.setUTCMinutes(0);
+//  dt.setUTCHours(0);
+//  dt.setUTCMinutes(0);
+//  dt.setUTCSeconds(0);
+//  dt.setUTCMilliseconds(parseInt(t.dateTimeMS));
+
+  dt.setUTCHours(t.hours);
+  dt.setUTCMinutes(t.minutes);
   dt.setUTCSeconds(0);
-  dt.setUTCMilliseconds(parseInt(t.dateTimeMS));
+  dt.setUTCMilliseconds(0);
   var msSinceEpoch = dt.getTime();
 
   // Adjust by adding in the timezone difference
