@@ -48,7 +48,7 @@ GroupAvail captures no data except for diagnostic logging and (optionally) Googl
 
 ## Development and Testing Notes
 
-The development of GroupAvail is much the same as any other AppsScript code, with the addition of artifacts needed to support deploying and running GroupAvail as a Workspace AddOn with specific privileges for Calendar and Gmail feature access. Notes on the specific files within the project:
+The development of GroupAvail is much the same as any other Apps Script code, with the addition of artifacts needed to support deploying and running GroupAvail as a Workspace AddOn with specific privileges for Calendar and Gmail feature access. First, a few notes on the specific files within the project:
 
 1. <strong><code>Environment.js</code></strong> contains global javascript variables that you will need to tailor to your deployment environment. This includes the domain, error message text, image locations, location of "about" content and more.
 2. <strong><code>appsscript.json</code></strong> is a [manifest](https://developers.google.com/apps-script/concepts/manifests) that specifies properties for the Add On deployment including Workspace trigger connections to Apps Script functions, security Oauth scopes and related declarations (to allow the user to see and accept required privileges) and information describing how the Add On is to appear in the Gmail interface. This file name and its json specified parameters are prescribed by AppsScript deployment tooling and partially managed in the IDE’s project properties (e.g. GCP project and Cloud Logging settings).
@@ -59,18 +59,21 @@ The development of GroupAvail is much the same as any other AppsScript code, wit
 
 
 ## Getting Started
-At the time of writing, a set of clasp commands that will push the code to Apps Script IDE from a command line TODO to write and test. To get started now, create a new Apps Script project and create the ".js" files from this project and manually copy/paste the code into each. You will also need to create and update the appscript.json file with configuration information that include details of the permissions required by the add on when deployed to Gmail.
+At the time of writing, there is not yet a set of clasp commands to push the code to Apps Script IDE from a command line. It is in the TODO list. 
+
+To get started with the current release, first create a new Apps Script project and then create the ".js" files in the project from the files this project and manually. You will need to enable <code>Show "appsscript.json" manifest file in editor</code> in the Project Settings first.  You can then copy/paste the code and json into each of the respective files. You may also need update the Environment.js file for your deployment and may need to update appscript.json file with configuration information that includes details of the permissions required by the add on when deployed to Gmail.
 
 ## Working on GroupAvail
 
 There are two options for interactive test/development depending on the feature/bug being worked on.
 
-1. **Interactively in the IDE**: A crude collection of test drivers are in TestCases.js. You can select which test case to run at the top of the editor and use either “Run” or “Debug” as needed. In the current code base, the tests are not developed as a comprehensive suite with test correctness assertions, but as stubs that can run specific functions within the Add-On code base without deploying and running the App in Gmail.
-2. **As a test deployment to your Gmail client**: You can install and test the Test Deployment against the Head revision in your connected Gmail account. Add On Versioning
+1. **As a test deployment to your Gmail client**: You can install and test the head version of the code as a Test Deployment against the in your connected Gmail account. Select "Deploy", then "Test Deployments" and then "Done" to connect the head version of the code to your Gmail runtime (after a hard refresh of the browser tab). The blue calendar logo will appear at the bottom of the compose window and you can interactively test, modify and view log messages in the IDE in parallel to use in Gmail. 
+2. **Interactively in the IDE**: A crude collection of test drivers are in TestCases.js. You can select which test case to run at the top of the editor and use either “Run” or “Debug” as needed. In the current code base, the tests are not developed as a comprehensive suite with test correctness assertions, but as stubs that can run specific functions within the Add-On code base without deploying and running the App in Gmail.
 
-A very simple version string is specified at the top of GmailAddon.js. This string is available in the user interface and in log messages to view end-user version deployed.
+## Add On Versioning
+You may want to consider how to manage thesimple version string is specified at the top of Environment.js. This string is available in the user interface and in log messages to view end-user version deployed to help you know what is running for users when deployed through your marketplace.
 
-## Create a New Deployment
+## Create a New Deployment for the Marketplace
 
 After satisfactory testing using TestCases.js stubs and running the head version in your personal Gmail environment, you will next need to create a production deployment in the Apps Script editor. To start, select “Deploy” (more detail on Deployment is provided [here](https://developers.google.com/apps-script/concepts/deployments).)
 
