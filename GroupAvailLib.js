@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-/* This script uses the Google Calendar API to search for and present 
+/* This script uses the Google Calendar API to search for and present
  * shared calendar available time. It  accepts input defining the start date,
- * end date, time-of-day start and end times, minimum duration, 
- * if weekends should be included and the timezone to use for the search. 
+ * end date, time-of-day start and end times, minimum duration,
+ * if weekends should be included and the timezone to use for the search.
 
  * The library uses Calendar API - https://developers.google.com/calendar/overview
  * Based on an example here https://developers.google.com/calendar/quickstart/apps-script
@@ -26,7 +26,7 @@
 const DAY_DURATION_MS = 24 * 60 * 60 * 1000;
 
 /**
- * Main entry point to generate a list of available time slots based on the user's 
+ * Main entry point to generate a list of available time slots based on the user's
  * calendar and parameters provide on the spreadsheet
  * @param {Object} groupAvailRequest - object with parameters for GroupAvail Request
  */
@@ -38,19 +38,18 @@ function genAvailTime( groupAvailRequest) {
   // Find all blocked time
   var blockedTime = findBlockedTime(groupAvailRequest);
 
-  // Log output for debug purposes   
+  // Log output for debug purposes
   Logger.log("Number of blocked entries: " + blockedTime.length);
   blockedTime.forEach(logRow);
 
-  // Convert list of blocked times into the whitespace inbetween as available times.
+  // Convert list of blocked times into the whitespace in between as available times.
   var avail = findAvailTimes(groupAvailRequest, blockedTime);
 
   // Log result
   Logger.log("Number of avail slots = " + avail.length);
 
   /**
-   * START CHANGES (2021-05-14 - @verbanicm)
-   * Filter weekends from available data before adding to list, 
+   * Filter weekends from available data before adding to list,
    * allows for better formatting
    */
   // Filter out weekends if needed
@@ -70,14 +69,14 @@ function genAvailTime( groupAvailRequest) {
  * @param {object} rqst - Request object with user specified search parameters
  */
 function checkParams(rqst) {
-  // convert to time in millis
+  // convert to time in milliseconds
   rqst.minDuration = rqst.minDuration  * 60 * 1000;
- 
+
   // User the Apps Script's timezone if not specified in the request
   if (rqst.defaultTimeZone == "") {
     rqst.defaultTimeZone = Session.getScriptTimeZone();
   }
-  
+
   rqst.startDate = genDate(rqst.startDate.getTime(),
         rqst.dayStartTime.getHours(),
         rqst.dayStartTime.getMinutes());
@@ -134,11 +133,11 @@ function findBlockedTime(rqst) {
 
     Logger.log('calEvent: [%s, %s], %s, %s: %s [from: %s %s]', start, end, status, transp, title, calEvent.getStart(), calEvent.getEnd());
 
-    dayEnd = genDate(end, 
+    dayEnd = genDate(end,
       rqst.dayEndTime.getHours(),
       rqst.dayEndTime.getMinutes());
 
-    // if event start is after the end of the day - begin the block 
+    // if event start is after the end of the day - begin the block
     // starting at the end of the day (e.g. evening events)
     if (start > dayEnd) {
       start = dayEnd;
@@ -181,19 +180,19 @@ function findAvailTimes(rqst, blocked) {
   nextBlock = blocked[0];
   addAvail(rqst, availTimes, rqst.startDate, nextBlock[1], "A");
 
-  // Search for chunks of free time using blocked time open spots between 
+  // Search for chunks of free time using blocked time open spots between
   // end of blocked time to start of next blocked time
   for (var i = 0; i < (blocked.length - 1); i++) {
 
-    // Avail time is time in between two blocks   
+    // Avail time is time in between two blocks
     // blocked[i][2]; -> end time of blocked time
     // blocked[i+1][1] -> start time of *next* blocked time
     curBlock = blocked[i];
     nextBlock = blocked[i + 1];
     addAvail(rqst, availTimes, curBlock[2], nextBlock[1], "B" + i);
   }
-  // add another block that goes til the end of the last day  
-  var dayEnd = genDate(blocked[i][2].getTime(), rqst.dayEndTime.getHours(), 
+  // add another block that goes til the end of the last day
+  var dayEnd = genDate(blocked[i][2].getTime(), rqst.dayEndTime.getHours(),
                     rqst.dayEndTime.getMinutes());
 
   curBlock = blocked[i];
@@ -203,14 +202,14 @@ function findAvailTimes(rqst, blocked) {
 }
 
 /**
- * Adds an available blocks of time to a list of shared availability 
- * Also handles splitting blocks over multiple days and 
+ * Adds an available blocks of time to a list of shared availability
+ * Also handles splitting blocks over multiple days and
  * blocks of days that have nothing scheduled and are fully free.
  * @param {object} rqst - the original request parameters
  * @param {object} availTimes the array of time blocks that are available
  * @param {object} availStart - the start time of the availability block to add
  * @param {object} availEnd- the end time of the availability block to add
- * @param {string} mark - a letter to include in output for debugging 
+ * @param {string} mark - a letter to include in output for debugging
  */
 function addAvail(rqst, availTimes, availStart, availEnd, mark) {
   var spanTime;
@@ -232,7 +231,7 @@ function addAvail(rqst, availTimes, availStart, availEnd, mark) {
       addAvail(rqst, availTimes, availStart, dayEnd, mark + "H");
     }
 
-    // Determinue number of days spanned and create avail slots for each day taking into 
+    // Determine number of days spanned and create avail slots for each day taking into
     // account the event input end date/time.
 
     spanTime = availEnd.getTime() - availStart.getTime();
@@ -287,7 +286,7 @@ function addAvail(rqst, availTimes, availStart, availEnd, mark) {
     // ignore this slot if our availability collapsed to no time due to day start / end
     if (availStart >= availEnd) return;
 
-    // ignore this slot if the availbility is less than min duration
+    // ignore this slot if the availability is less than min duration
     var duration = availEnd - availStart;
     if (duration < rqst.minDuration) return;
 
@@ -296,12 +295,12 @@ function addAvail(rqst, availTimes, availStart, availEnd, mark) {
 }
 
 /**
- * Acceptng start and end times, move to start soonest at dayStart, and end at latest at dayEnd times
+ * Accepting start and end times, move to start soonest at dayStart, and end at latest at dayEnd times
  * @param {object} start time for adjustment
  * @param {object} end time for adjustment
  */
 function clampTimes (rqst, start, end) {
-  // Set day specific day start and end times.  
+  // Set day specific day start and end times.
   var dayStart = genDate(start.getTime(),
       rqst.dayStartTime.getHours(),
       rqst.dayStartTime.getMinutes());
@@ -317,7 +316,7 @@ function clampTimes (rqst, start, end) {
   return  { end: end, start: start};
 }
 
-/** 
+/**
  * Determine if the time between two date objects spans a day
  * @param {object} start time to test for day spanning
  * @param {object} end time to test for day spanning
@@ -350,13 +349,13 @@ function logRow(item, index) {
  * Uses the Calendar API
  * @param {string} ids list (comma separated) of email addresses for calendars to search
  * @param {object} starting time for search
- * @param {object} endind time for search
+ * @param {object} ending time for search
  */
 function getAllEvents(ids, starting, ending) {
   var allEvents = Array();
   Logger.log("getAllEvents " + starting + " to " + ending );
-  
-  // Search arameters for the event search API call
+
+  // Search parameters for the event search API call
   var calArgs = {
     timeMin: starting.toISOString(),
     timeMax: ending.toISOString(),
@@ -373,7 +372,7 @@ function getAllEvents(ids, starting, ending) {
 
   // Use Calendar API - https://developers.google.com/calendar/overview
   // Based on example here https://developers.google.com/calendar/quickstart/apps-script
-  // Iterate over calendars of intended 
+  // Iterate over calendars of intended
 
   for (calendarId of idlist) {
 
@@ -384,7 +383,7 @@ function getAllEvents(ids, starting, ending) {
     try {
       response = Calendar.Events.list(calendarId, calArgs);
     } catch (err) {
-      var errStr = "Attempt to retrieve calendar for <b>" + calendarId + " </b>failed with error " + err + 
+      var errStr = "Attempt to retrieve calendar for <b>" + calendarId + " </b>failed with error " + err +
       "\nOnly valid @" + WORKSPACE_DOMAIN + " email addresses are supported\n";
       Logger.log(errStr);
       throw(new Error(errStr));
@@ -397,11 +396,11 @@ function getAllEvents(ids, starting, ending) {
     for (var evt of response.getItems()) {
       var sum = evt.getSummary();
 
-      // Using Event Transparency alone failed. It is not set on many events. 
+      // Using Event Transparency alone failed. It is not set on many events.
       // for events that are explicitly set as Transparent, do not include the time as blocked
       var transp = evt.getTransparency();
-     
-        // The following approach will also count as free time events where the invitee has 
+
+        // The following approach will also count as free time events where the invitee has
         // not yet replied to an event (versus default free/busy approach to show busy.)
         // This is done because it is common for users to leave recurring optional events as unaccepted.
       var attlist = evt.getAttendees();
@@ -410,32 +409,32 @@ function getAllEvents(ids, starting, ending) {
         for (var att of attlist) {
           var block = false;
 
-          // Only look at the attributes for invitee calendarID assocaited with calendar being processed
+          // Only look at the attributes for invitee calendarID associated with calendar being processed
           if (att.email == calendarId) {
 
             var respSt = att.getResponseStatus();
-            // Capture "blocked" unavailable based on combination of transparency status (free), 
+            // Capture "blocked" unavailable based on combination of transparency status (free),
             // accepted status or ignore
             if ((att.status == "tentative") || (att.status == "accepted")) {
               block = true;
             } else if ( isNotTransparent(transp) // Explicitly marked free (transparent) or not at all
-                && (respSt != "notReplied")      // Response statues that mean either explicitly declined 
+                && (respSt != "notReplied")      // Response statues that mean either explicitly declined
                 && (respSt != "needsAction")     // or implicitly open by way no action to accept or decline)
                 && (respSt != "declined") ) {
-              block = true; 
+              block = true;
             }
 
             if(block) {
               allEvents.push(evt);
             }
-            
+
             Logger.log("Event / attrs," + block + ",summary length=" + sum.length + ", response/attendee status=[" + respSt + ", "+ att.status + "]' transparency=" + transp + ' Start/End Time =' + evt.getStart() + " to " + evt.getEnd());
 
             break;
           }
         }
       } else {
-        // Events can appear on calendars without invitees - assume that calendar 
+        // Events can appear on calendars without invitees - assume that calendar
         // owner set to the searcher and is attending if not explicity set to transparent (free).
           Logger.log("Event -summary length=" + sum +  ", "+ " transparency=" + transp + ' Start/End Time =' + evt.getStart() + " to " + evt.getEnd());
         if(isNotTransparent(transp)) {
@@ -451,7 +450,7 @@ function getAllEvents(ids, starting, ending) {
 
 /**
  * Address inconsistencies found in returned calendar entry transparency values in testing -
- * @param {string} transp value returned from Calendar entry API 
+ * @param {string} transp value returned from Calendar entry API
  */
 function isNotTransparent(transp) {
   return ((transp == null) || (transp != null) && (transp != "transparent"));
@@ -481,7 +480,7 @@ function adjustAddress(str) {
  */
  function evtCompare(a, b) {
    // Strange extra conversion is to handle cases where event can be an all day event and represented differently to
-   // cause getStartTime to not return (alternative would be to test the event type and get the 
+   // cause getStartTime to not return (alternative would be to test the event type and get the
    // date/time using a different method incurring the same overhead as this approach wrt object creation)
   var sa = new Date(a.getStart().getDateTime()).getTime();
   var sb = new Date(b.getStart().getDateTime()).getTime();
@@ -496,7 +495,7 @@ function adjustAddress(str) {
 }
 
 /**
- * Function to clean up consistency for event start/end dates that 
+ * Function to clean up consistency for event start/end dates that
  * either include or come without time.
  * @param {object} rqst as specified to the library from user input
  * @param {object} dt is the date to be cleaned for consistency
