@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -20,8 +20,8 @@
 
 /**
  * Convert date from UI (object with ms since epoch) to javascript date
- * For unknown reasons, the DatePicker always returns a date in UTC even 
- * when user is choosing the date in their timezone. This hack moves the date 
+ * For unknown reasons, the DatePicker always returns a date in UTC even
+ * when user is choosing the date in their timezone. This hack moves the date
  * to the proper timezone based on user specified timezone
  * @param {object} d - date object from Card UI
  * @param {object} ianatz - IANA Time Zone associated with the user
@@ -30,7 +30,7 @@ function makeDateFromDateField(d_in, ianatz) {
   // Changed on 3/2/2023 - (undocumented change to input from card UI events from msSinceEpoch integer to a JSON string with fields.)
   //  var d = JSON.parse(d_in);
 
-// Unchanged on 5/5/2023 whene prior behavior restored.
+// Unchanged on 5/5/2023 when prior behavior restored.
   var d = d_in.msSinceEpoch;
 
   var userTZDiff = tzDiff(ianatz);
@@ -42,7 +42,7 @@ function makeDateFromDateField(d_in, ianatz) {
 // var ret =  new Date(parseInt(d.dateTimeMS) + diff);
 /// prior version -saved   on 3/2.
   var ret =  new Date(d + diff);
-  
+
   Logger.log("makeDateFromDateField " + d + " output tz="+ ianatz +' diff ' + diff + "=user " + userTZDiff +"- utc "+ utcTZDiff + ' d= ' + d + ' d.dateTimeMS='+ d.dateTimeMS + " dict " + d["dateTimeMS"] + " " + typeof(d) +" "+ typeof(d.dateTimeMS) + " =?" + parseInt(d.dateTimeMS)+ '  ret=' + ret + " " + new Date().getMilliseconds());
   return ret;
 }
@@ -56,8 +56,8 @@ function makeDateFromTimeField(t_in, ianatz) {
   // Changed on 3/2/2023 - (undocumented change to input from card UI events)
 
 //  var t = JSON.parse(t_in); // Interim workaround for issue in type released in march
-// Unchanged on 5/5/2023 whene prior behavior restored.
-  var t = t_in; 
+// Unchanged on 5/5/2023 when prior behavior restored.
+  var t = t_in;
 
   // Difference for the timezone of the input
   var diff = tzDiff(ianatz);
@@ -110,7 +110,7 @@ function tzDiff(ianatz) {
     const tzTime = Date.UTC(year, month - 1, day, hour, min);
 
     var serverTime = new Date().getTime();
-    
+
     ret = Math.round((serverTime - tzTime) / 1000) * 1000;
   }
   return ret;
@@ -121,7 +121,7 @@ function tzDiff(ianatz) {
  * @param (integer) the index of the month name
  */
 function getMonthName(ix) {
-  // @todo - these arrays need to be I18N'ed 
+  // @todo - these arrays need to be I18N'ed
   var monthNames = [
     "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
   ];
@@ -139,10 +139,10 @@ function getDayName(ix){
 
 
 /**
- * Round time indt up or down (depending on start or end) to nearest boundary based on rounding input
+ * Round time in dt up or down (depending on start or end) to nearest boundary based on rounding input
  * @param {object} dt the date object to round
  * @param {boolean} isStart - is this date a start (or end) date
- * @param (integer) minDuration - the minumum duration for availability to include, used for rounding time
+ * @param (integer) minDuration - the minimum duration for availability to include, used for rounding time
  */
 function roundTime(dt,isStart,minDuration){
 
@@ -155,7 +155,7 @@ function roundTime(dt,isStart,minDuration){
   if(isStart) {
     minutes = Math.floor(minutes / roundClip) * roundClip;
   } else {
-    minutes = Math.ceil(minutes / roundClip) * roundClip; 
+    minutes = Math.ceil(minutes / roundClip) * roundClip;
     if(minutes >= 60) {
       hours +=1;
       minutes = 0;
@@ -167,8 +167,8 @@ function roundTime(dt,isStart,minDuration){
   return dt;
 }
 
-// Formatting 
-// Provide a subset of conventional timezones for user selection (currently Americas/Europe 
+// Formatting
+// Provide a subset of conventional timezones for user selection (currently Americas/Europe
 // since wider testing not completed for business time ranges that span days
 var tzDispList = {
   "America/New_York": "(ET)",
@@ -215,11 +215,11 @@ var tzDispList = {
 
 
 /**
- * THe following table and conversion function are not currently being used. The App currently 
+ * THe following table and conversion function are not currently being used. The App currently
  * has and supports a more limited set of timezones. This table is maintained here for future use.
- * 
- * This table and the function below remap a broad set of possible timezones 
- * (currently americas and europe only) limited set that are used in in the user 
+ *
+ * This table and the function below remap a broad set of possible timezones
+ * (currently americas and europe only) limited set that are used in in the user
  * interface to select the output. The shorter list is used to make the app easier to use.
 
  */
@@ -454,7 +454,7 @@ var tzRemapper = {
 // Get one of the supported timezone given the user's specification
 function findDefaultTimeZone(userTz) {
 
-  var ret = tzRemapper[userTz]; 
+  var ret = tzRemapper[userTz];
 
   if(ret == null) {
     ret = 'America/New_York';
@@ -463,7 +463,7 @@ function findDefaultTimeZone(userTz) {
   var diff =  tzDiff(ianatz);
 
   var dt =  new Date((((t.hours*60) + t.minutes) * 60 * 1000) + diff   );
-  
+
   Logger.log("makeDateFromTime 2" + JSON.stringify(t) + " " + diff + " " + ianatz + ' ' + dt );
   return dt;
 }

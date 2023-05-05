@@ -4,7 +4,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -15,9 +15,9 @@
  */
 
 /**
- * This Google Workspace Add-on provides a way to capture shared 
+ * This Google Workspace Add-on provides a way to capture shared
  * calendar availability into email body using the GroupAvail library.
- * 
+ *
  * Started project using:
  * https://developers.google.com/workspace/add-ons/cats-quickstart
  *
@@ -40,7 +40,7 @@ function onHomepage(e) {
 }
 
 /**
- * Creates a card with information about GroupAvail to show in the sidepanel.
+ * Creates a card with information about GroupAvail to show in the side panel.
  * @param {String} text The text to overlay on the image.
  * @param {Boolean} isHomepage True if the card created here is a homepage;
  *      false otherwise. Defaults to false.
@@ -65,9 +65,9 @@ function createInfoCard(text, isHomepage) {
   var instructions = CardService.newTextParagraph().setText(cardText);
 
   var icon = CardService.newImage().setImageUrl(LOGO_URL);
-  
+
   var section = CardService.newCardSection().addWidget(icon).addWidget(instructions);
-  
+
   var card = CardService.newCardBuilder()
       .addSection(section)
       .setFixedFooter(footer);
@@ -75,9 +75,9 @@ function createInfoCard(text, isHomepage) {
   if (!isHomepage) {
     // Create the header shown when the card is minimized,
     // but only when this card is a contextual card. Peek headers
-    // are never used by non-contexual cards like homepages.
+    // are never used by non-contextual cards like homepages.
     var peekHeader = CardService.newCardHeader()
-      .setTitle('Group Availablity Finder')
+      .setTitle('Group Availability Finder')
       .setImageUrl(ICON_URL)
       .setSubtitle(text);
     card.setPeekCardHeader(peekHeader)
@@ -108,7 +108,7 @@ try {
 
   var header = CardService.newCardHeader()
       .setTitle('Group Shared Availability Finder');
-  
+
   // Add a space to improve readability
   var invitees = schedulees.toString().replace(/,/g, ', ');
 
@@ -118,17 +118,17 @@ try {
 
   var inviteeList = CardService.newTextInput()
       .setFieldName('invitees')
-      .setTitle('Invitees (add/edit ldaps as needed)')
-      .setMultiline(true) 
-      .setHint('Enter comma separated ldaps for Schedulees to search')
+      .setTitle('Invitees (add/edit Email IDs as needed)')
+      .setMultiline(true)
+      .setHint('Enter comma separated Email IDs for Schedulees to search')
       .setValue(invitees);
 
   var minDuration = CardService
   .newSelectionInput()
   .setFieldName("minDuration")
   .setType(CardService.SelectionInputType.DROPDOWN)
-  .setTitle("Minumum Duration");
-  
+  .setTitle("Minimum Duration");
+
   minDuration
   .addItem('15 m','15',false)
   .addItem('30 m','30',true)
@@ -168,7 +168,7 @@ try {
   .setFieldName('includeWeekends')
   .setType(CardService.SelectionInputType.RADIO_BUTTON)
   .setTitle("Include Weekends?");
-  
+
   includeWeekends.addItem('No','No',true);
   includeWeekends.addItem('Yes','Yes',false);
 
@@ -177,16 +177,16 @@ try {
   .setFieldName("timeZone")
   .setType(CardService.SelectionInputType.DROPDOWN)
   .setTitle("Schedule Time Zone (default from your Calendar settings)");
-  
+
   // Add timezones starting with current user TZ as default, and other key TZs in supported
   // Geos based on timezone map data
   timeZone.addItem(userTimeZone,userTimeZone,true);
-  
+
    var tzs = Object.entries(tzDispList);
-   for (const [key, value] of tzs) { 
+   for (const [key, value] of tzs) {
      if(key != userTimeZone) { timeZone.addItem(key,key,false); }
    }
-  
+
   var action = CardService.newAction()
       .setFunctionName('onGmailInsertAvail');
 
@@ -221,7 +221,7 @@ try {
       .setHeader(header)
       .addSection(section);
 } catch (exc) {
-     throw formatError(exc); 
+     throw formatError(exc);
 }
   return card.build();
 }
@@ -260,14 +260,14 @@ function onGmailInsertAvail(e) {
       defaultTimeZone: e.formInput.timeZone
     }
   } catch (exc) {
-    throw formatError(exc); 
+    throw formatError(exc);
   }
 
   if( groupAvailRqst.endDate < groupAvailRqst.startDate) {
        throw new Error( "\nEnd date must be later than start date.\nStart Date= "+groupAvailRqst.startDate+"\nEnd Date = "+groupAvailRqst.endDate);
   }
   try {
-      // Make the request to the library function 
+      // Make the request to the library function
       var result = genAvailTime(groupAvailRqst);
 
       tableContent = formatAvailTime(result,e.formInput.timeZone);
@@ -278,9 +278,9 @@ function onGmailInsertAvail(e) {
               .addUpdateContent(tableContent,CardService.ContentType.MUTABLE_HTML)
               .setUpdateType(CardService.UpdateDraftBodyType.IN_PLACE_INSERT))
           .build();
-    
+
   } catch (exc) {
-    throw formatError(exc); 
+    throw formatError(exc);
   }
   return response;
 }
@@ -312,7 +312,7 @@ function filterSchedulees(list,user) {
 
 /**
  * Formats HTML table with available time slots
- * @param {object} rows - two dimensional array with columns for 
+ * @param {object} rows - two dimensional array with columns for
  * start date/time and end date/time
  * @param {string} timeZone - the timezone to use for output
  */
@@ -325,7 +325,7 @@ function formatAvailTime(rows,timeZone) {
     // Lookup up abbreviation of timezone for output if available
     var tz = tzDispList[timeZone];
     if(tz === undefined) { tz = "(" + timeZone + ")"; }
-    var content = "<br><u><b>Available Times</b> " + tz + "</u><br>"; 
+    var content = "<br><u><b>Available Times</b> " + tz + "</u><br>";
 
     for(let item of rows) { content += formatTableRow(item,timeZone)};
     content += "</ul>";
@@ -336,9 +336,9 @@ function formatAvailTime(rows,timeZone) {
 }
 
 // used across output rows to track when to output a new day (for multiple following time slots)
-var lastWrittenDay; 
+var lastWrittenDay;
 
-/** 
+/**
  * Writes a formatted line to the gmail body given the availability item and line index
  */
 function formatTableRow(item, timeZone) {
@@ -356,7 +356,7 @@ function formatTableRow(item, timeZone) {
      } else {
        dayString = "</ul><b>";
      }
-      dayString += "&nbsp;&nbsp;" + getDayName(start.getDay()) + "  (" + 
+      dayString += "&nbsp;&nbsp;" + getDayName(start.getDay()) + "  (" +
             getMonthName(start.getMonth()) + " " + start.getDate() + ") : </b><ul>";
   }
 
@@ -367,7 +367,7 @@ function formatTableRow(item, timeZone) {
 /**
  * Format the time for display in the output
  * @param {object} d  the date object to format
- * @param {string} timeZone - the timezone to use for output formatting 
+ * @param {string} timeZone - the timezone to use for output formatting
  */
 function formatTime(d,timeZone) {
   var formattedDate;
@@ -380,26 +380,26 @@ function formatTime(d,timeZone) {
   return formattedDate.toLowerCase();
 }
 
-/**  
- * Trace events for usage in Google Analytics by placing the following URL into the form as 
- * a small image 
+/**
+ * Trace events for usage in Google Analytics by placing the following URL into the form as
+ * a small image
  * @param {string} action name to be tracked in Google Analytics
  **/
 const gaID = GOOGLE_ANALYTICS_ID;
 
 function gaTraceUrl(action)
 {
- // Breaking down the analytics URL payload:v=1 
- // Version.&tid=YOUR_TRACKING_ID 
- // Your UA-XXXXX-Y 
- // Tracking ID &uid=A_USER_ID 
- // user_id (either a uid or anonymous cid (client id) is required)&t=event 
- // Event hit type&ec=engagement 
- // Event Category. Required.&ea=sign_up 
- // Event Action. Required.&el=Twitter 
- // Event label &el=XXX 
+ // Breaking down the analytics URL payload:v=1
+ // Version.&tid=YOUR_TRACKING_ID
+ // Your UA-XXXXX-Y
+ // Tracking ID &uid=A_USER_ID
+ // user_id (either a uid or anonymous cid (client id) is required)&t=event
+ // Event hit type&ec=engagement
+ // Event Category. Required.&ea=sign_up
+ // Event Action. Required.&el=Twitter
+ // Event label &el=XXX
  // Event value &ev=VALUE
- // Not used per policy 
+ // Not used per policy
  // uid='+userID+'
 
   var actver = action + "-" + getVersion();

@@ -5,7 +5,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
@@ -19,16 +19,16 @@
  * Variables that will require changes when deployed to a given workspace domain
  */
 
-/* version shown in UI and log messages sicne multiple marketplace based deployments could be active at the same time */
+/* version shown in UI and log messages since multiple marketplace based deployments could be active at the same time */
 const version  =  "V20230505";
 
 /* Workspace domain string */
-const WORKSPACE_DOMAIN = "google.com";
+const WORKSPACE_DOMAIN = "your-domain-name-here.com";
 
 /* Regular expression to select schedulees your organizations email domain specified in from the to/cc/bcc lines */
-const DOMAINREGEX = /@google.com/;
+const DOMAINREGEX = /@your-domain-name-here.com/;
 
-/* URL of Icon to use to display button at the bottom of the Gmail componse window */
+/* URL of Icon to use to display button at the bottom of the Gmail compose window */
 const ICON_URL = "https://fonts.gstatic.com/s/i/googlematerialicons/date_range/v11/gm_blue-48dp/1x/gm_date_range_gm_blue_48dp.png";
 const LOGO_URL = "https://lh3.googleusercontent.com/-aCIapqbJqEc/YO1yHsEF3MI/AAAAAAAAAgE/xkNbuIl37lgKXaxamq3NXGTjLXJxpvJ6gCNcBGAsYHQ/s400/GroupAvailV2-128x128.png";
 
