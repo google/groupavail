@@ -48,20 +48,22 @@ GroupAvail captures no data except for diagnostic logging and (optionally) Googl
 
 ## Development and Testing Notes
 
-The development of GroupAvail is much the same as any other Apps Script code, with the addition of artifacts needed to support deploying and running GroupAvail as a Workspace AddOn with specific privileges for Calendar and Gmail feature access. First, a few notes on the specific files within the project:
+The development of GroupAvail is much the same as any other Apps Script project, with the addition of artifacts needed to support deploying and running GroupAvail as a Workspace AddOn (as described below) and privileges set up for permission acceptance by users for Calendar and Gmail API access. 
+ 
+First, a few notes on files within the project:
 
 1. <strong><code>Environment.js</code></strong> contains global javascript variables that you will need to tailor to your deployment environment. This includes the domain, error message text, image locations, location of "about" content and more.
 2. <strong><code>appsscript.json</code></strong> is a [manifest](https://developers.google.com/apps-script/concepts/manifests) that specifies properties for the Add On deployment including Workspace trigger connections to Apps Script functions, security Oauth scopes and related declarations (to allow the user to see and accept required privileges) and information describing how the Add On is to appear in the Gmail interface. This file name and its json specified parameters are prescribed by AppsScript deployment tooling and partially managed in the IDE’s project properties (e.g. GCP project and Cloud Logging settings).
 3. <strong><code>GmailAddOn.js</code></strong>: The AddOn UI and triggers that perform capture of user parameters and drive the operation of the actions.
 4. <strong><code>GroupAvailLib.j</code>s</strong>: Includes the core functions that perform the calendar search/merge and extraction of shared availability time for specified users and date/time parameters.
 5. <strong><code>TimeSupport.js</code></strong>: Library of supporting functions that handle timezone mapping and differences/conversions in time/date format in the Calendar API, the Addon API and Javascript.  
-6. <strong><code>TestCases.js</code>:  </strong>A small set of javascript stubs used during development to incremental build/test portions of the app. Its future could include a more rigorous set of test cases/assertions and ensure better code coverage.
+6. <strong><code>TestCases.js</code>: </strong>A small set of javascript stubs used during development to incremental build/test portions of the app. Its future could include a more rigorous set of test cases/assertions and ensure better code coverage.
 
 
-## Getting Started
-At the time of writing, there is not yet a set of clasp commands to push the code to Apps Script IDE from a command line. It is in the TODO list. 
+## Developer's Getting Started
+At the time of writing, there is not yet a set of defined <code>clasp</code> commands to push the code to Apps Script IDE from a command line. It is in the TODO list (and a welcome contribution from anyone who gets to it first). 
 
-To get started with the current release, first create a new Apps Script project and then create the ".js" files in the project from the files this project and manually. You will need to enable <code>Show "appsscript.json" manifest file in editor</code> in the Project Settings first.  You can then copy/paste the code and json into each of the respective files. You may also need update the Environment.js file for your deployment and may need to update appscript.json file with configuration information that includes details of the permissions required by the add on when deployed to Gmail.
+To get started with the current release, first create a new [Apps Script](https://script.google.com/) project. Then create the ".js" files in the Apps Script IDE using the files in this repo manually. You will need to enable <code>Show "appsscript.json" manifest file in editor</code> in the Project Settings.  Simply copy/paste the Apps Script code and <code>appscript.json</code> contents into each of the respective files. You will also need to make updates to <code>Environment.js</code>  for your environment and may need to update appscript.json file with configuration information that includes details of the permissions required by the add on when deployed to Gmail.
 
 ## Working on GroupAvail
 
