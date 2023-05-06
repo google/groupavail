@@ -15,13 +15,13 @@ GroupAvail is a Gmail [Workspace Add On](https://developers.google.com/workspace
 ```         
 This document provides a high-level overview of usage and processes to get started, update, test, debug, deploy and monitor the GroupAvail AddOn.
 
-## Usage
+## Usage when Installed
 Users typically install GroupAvail from the organization's Workspace Marketplace. (Instructions below describe the developer deployment processes.)
 Once installed, a blue calendar image button is added to the bottom of the Gmail Compose window like this:
 
 ![alt_text](images/groupavailbutton.png "")
 
-After the user enters to, cc and bcc email addresses (from their organization) into the GMail compose window fields, they can then push the blue button and will be prompted for more information like this:
+After the user enters to, cc and bcc email addresses (from their organization) into the GMail compose window fields, they can then push the blue button and a pop-up box will prompt the user for more information like this:
 
 ![alt_text](images/groupavailform.png "")
 
@@ -46,7 +46,7 @@ GroupAvail captures no data except for diagnostic logging and (optionally) Googl
 * An evident defect in either GMail Smart Compose or the Workspace Add On CardService used by GroupAvail causes the Add On to insert the schedule availability content inside of and above the  +<email address> entry when used to add addresses to an email using the feature. The work around is to move the cursor above the +<email address>  entry before launching GroupAvail, and cut/paste the output to the desired location in the email body. 
 
 
-## Development and Testing Notes
+## Development and Testing 
 
 The development of GroupAvail is much the same as any other Apps Script project, with the addition of artifacts needed to support deploying and running GroupAvail as a Workspace AddOn (as described below) and privileges set up for permission acceptance by users for Calendar and Gmail API access. 
  
@@ -61,9 +61,38 @@ First, a few notes on files within the project:
 
 
 ## Developer's Getting Started
-At the time of writing, there is not yet a set of defined <code>clasp</code> commands to push the code to Apps Script IDE from a command line. It is in the TODO list (and a welcome contribution from anyone who gets to it first). 
+There are two ways to install GroupAvail to Apps Script from this repo. The first is to set up a project in Apps Script IDE and copy/paste the code into the project. The second is to use <code>clasp</code>, an open source command line tool based on Node.js. Both approaches are described below.
 
-To get started with the current release, first create a new [Apps Script](https://script.google.com/) project. Then create the ".js" files in the Apps Script IDE using the files in this repo manually. You will need to enable <code>Show "appsscript.json" manifest file in editor</code> in the Project Settings.  Simply copy/paste the Apps Script code and <code>appscript.json</code> contents into each of the respective files. You will also need to make updates to <code>Environment.js</code>  for your environment and may need to update appscript.json file with configuration information that includes details of the permissions required by the add on when deployed to Gmail.
+### Pasting code into the IDE
+To get started with the current release using the IDE, first create a new [Apps Script](https://script.google.com/) project. Then manually create each of ".js" files in the Apps Script IDE for the files in this repo. You also will need to enable <code>Show "appsscript.json" manifest file in editor</code> in the Project Settings.  Simply copy/paste the Apps Script code and <code>appscript.json</code> contents into each of the files. You will also need to make updates to <code>Environment.js</code>  to specify your environment. You may need to update appscript.json file with other environment specific configuration information that includes details of the permissions required by the add on when deployed to Gmail.
+
+### Using the Command line
+You will need to have Node.js and clasp installed as a prerequisite. Instructions for how to ensure the correct Node.js version is installed and the steps to install <code> clasp</code> are available here:
+https://developers.google.com/apps-script/guides/clasp
+https://codelabs.developers.google.com/codelabs/clasp/#0
+
+You will also need to configure Apps Script to enable use of the API here.
+https://script.google.com/home/usersettings?pli=1
+
+Next, you can log clasp into Apps Script
+```
+clasp login
+```
+A browser tab will open with an authentication prompt. After clicking "Allow", the clasp command line wil have an authenticated URL to use for the commands and API.
+
+In the directory where the GroupAvail repo has been cloned.
+```
+clasp create --type standalone GroupAvail
+```
+And to push the files into App Script:
+```
+clasp push
+```
+Note that some files are not valid for Apps Script and not pushed due to inclusing in .`claspignore`.
+
+Once the project is pushed, you can open it in the IDE, deploy to your Gmail envirnment and test (and later publish for all users in your organization's Marketplace if desired.)
+
+
 
 ## Working on GroupAvail
 
@@ -153,7 +182,7 @@ Users can verify the GroupAvail version running in their Gmail environment by dr
 
 TODO: more to come
 
-## Monitoring Usage Tracking and Logging {#monitoring-usage-tracking-and-logging}
+## Monitoring Usage Tracking and Logging
 
 A one-pixel image Google Analytics tracker URL is embedded in the user input form to gather usage statistics.  You can set up your own GA project and specify the ID in the Environment file
 
