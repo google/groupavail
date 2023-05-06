@@ -198,10 +198,7 @@ try {
   var buttonSet = CardService.newButtonSet()
       .addButton(button);
 
-  var trackerIcon = CardService.newIconImage()
-      .setIconUrl(gaTraceUrl("RqstAvail"));
 
-  var tracker = CardService.newDecoratedText().setText(getVersion()).setEndIcon(trackerIcon);
 
   // Assemble the widgets and return the card.
   var section = CardService.newCardSection()
@@ -214,8 +211,14 @@ try {
       .addWidget(dayStartTime)
       .addWidget(dayEndTime)
       .addWidget(includeWeekends)
-      .addWidget(buttonSet)
-      .addWidget(tracker);
+      .addWidget(buttonSet);
+
+    if(GOOGLE_ANALYTICS_ID != "NONE") {
+      var trackerIcon = CardService.newIconImage().setIconUrl(gaTraceUrl("RqstAvail"));
+
+      var tracker = CardService.newDecoratedText().setText(getVersion()).setEndIcon(trackerIcon);
+      section.addWidget(tracker);
+     }
 
   var card = CardService.newCardBuilder()
       .setHeader(header)

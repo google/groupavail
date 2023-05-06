@@ -36,8 +36,8 @@ const LOGO_URL = "https://lh3.googleusercontent.com/-aCIapqbJqEc/YO1yHsEF3MI/AAA
 /* Error text to display to users when GroupAvail encounters an error during use */
 const ERROR_MESSAGE = "\n\n</i>See <A href=\"https://YOUR_CONTENT_HERE\"> GroupAvail News</A> for information about known issues and where to report issues and get help.\n\n";
 
-/* set to the GA ID if Google Analytics is used to track usage  */
-const GOOGLE_ANALYTICS_ID = 'UA-NNNNNNNNN-1';
+/* set to the GA ID if Google Analytics is used to track usage  - e.g. UA-12345678-1'. A value of NONE disables tracking */
+const GOOGLE_ANALYTICS_ID = 'NONE';
 
 /* URL of an internal web page describing GroupAvail to users */
 const ABOUT_URL = 'https://YOUR_ABOUT_PAGE_HERE';

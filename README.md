@@ -84,11 +84,13 @@ In the directory where the GroupAvail repo has been cloned.
 ```
 clasp create --type standalone GroupAvail
 ```
+Modify Environment.js to your org or individual values. This can also be done in the Apps Script IDE before deploying the app.
+
 And to push the files into App Script:
 ```
 clasp push
 ```
-Note that some files are not valid for Apps Script and not pushed due to inclusing in .`claspignore`.
+Note that some files are not valid for pushing to Apps Script and not pushed as a result of  inclusion in .`claspignore`.
 
 Once the project is pushed, you can open it in the IDE, deploy to your Gmail envirnment and test (and later publish for all users in your organization's Marketplace if desired.)
 
@@ -184,7 +186,7 @@ TODO: more to come
 
 ## Monitoring Usage Tracking and Logging
 
-A one-pixel image Google Analytics tracker URL is embedded in the user input form to gather usage statistics.  You can set up your own GA project and specify the ID in the Environment file
+A one-pixel image Google Analytics tracker URL can be embedded in the user input form to gather usage statistics.  You can set up your own GA project and specify the ID in the Environment file. To disable analytics tracking, the tracker ID can be set to "NONE" which is the default.
 
 The Apps Script code is also instrumented with selected Logging statements (which are routed to Cloud Logging by the Apps Script runtime). Logs are available in the GCP project used above. 
 
