@@ -97,7 +97,7 @@ Note that some files are not valid for pushing to Apps Script and not pushed as 
 Once the project is pushed, you can open it in the IDE, deploy to your Gmail envirnment and test (and later publish for all users in your organization's Marketplace if desired.)
 
 ## Configuring GroupAvail for Your Environment
-At a minumum, you will need to change <code>WORKSPACE_DOMAIN<code> and <code>DOMAINREGEX<code> to match your Worspace environment. These variables are used to match and filter Gmail addresses for access to the Calendar API only for users in your domain.
+At a minumum, you will need to change <code>WORKSPACE_DOMAIN</code> and <code>DOMAINREGEX</code> to match your Worspace environment. These variables are used to match and filter Gmail addresses for access to the Calendar API only for users in your domain.
 
 Optionally, you can include internal site URLs for users, change the error message and configure a Google Analytics ID to track usage.
 
