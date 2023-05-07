@@ -47,7 +47,6 @@ GroupAvail captures no data except for diagnostic logging and (optionally) Googl
 *  Schedulee's calendar "Working Hours" settings are not used to limit availability (the Calendar API does not currently make these calendar settings available.) Start end end times are based on GroupAvail parameters only.
 * When the email content usees "@" or "+" email addresses to add recipients, an evident defect in either GMail Smart Compose or the Workspace Add On CardService causes the Add On to insert the schedule availability content inside of and above the  "+" (or  "@") email address. A work around is to move the cursor above the email address(s) entry before launching GroupAvail, and cut/paste the output to the desired location in the email body. 
 
-
 ## Development and Testing 
 
 Development of GroupAvail is much the same as any other Apps Script project, with the addition of configuration and deployment steps needed to support installing and running GroupAvail as a Workspace AddOn (as described below) and privileges set up for permission acceptance by users for Calendar and Gmail API access. 
@@ -109,7 +108,7 @@ There are two options for interactive test/development depending on the feature/
 2. **Interactively in the IDE**: A crude collection of test drivers are in TestCases.js. You can select which test case to run at the top of the editor and use either “Run” or “Debug” as needed. In the current code base, the tests are not developed as a comprehensive suite with test correctness assertions, but as stubs that can run specific functions within the Add-On code base without deploying and running the App in Gmail.
 
 ## Versioning
-You may want to consider how to manage thesimple version string is specified at the top of <code>Environment.js<code>. This string is available in the user interface and in log messages to view end-user version deployed to help you know what is running for users when deployed through your marketplace.
+You may want to consider how to manage thesimple version string is specified at the top of <code>Environment.js</code>. This string is available in the user interface and in log messages to view end-user version deployed to help you know what is running for users when deployed through your marketplace.
 
 ## Create a New Deployment for the Marketplace
 
