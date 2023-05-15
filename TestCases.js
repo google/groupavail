@@ -76,8 +76,6 @@ function testGroupAvail() {
   var dayEndTime = new Date();
   dayEndTime.setHours(17);
   dayEndTime.setMinutes(0);
-//  invitees: "kharkovski@google.com, iankelly@google.com,rickkoter@google.com",
-//  invitees: "rickkoter@google.com",
 
   var rqst = {
   invitees: 'rickkoter@google.com',
@@ -110,9 +108,6 @@ function testRound() {
     console.log("End   " + row[1] + "   :   " + roundTime(row[1],false,15)+ " 15");
     console.log("End   " + row[1] + "   :   " + roundTime(row[1],false,30)+ " 30");
   }
-
-
-
 }
 
 
@@ -127,8 +122,6 @@ function testModRoundingIdea() {
   console.log(Math.ceil(m / 15) * 15); 
   console.log(Math.floor(m / 30) * 30);
   console.log(Math.ceil(m / 30) * 30); 
-
-
 }
 
 
@@ -203,24 +196,3 @@ function testMakeDateFromTimeField() {
   var d2 = makeDateFromTimeField(t,"America/Los_Angeles");
   Logger.log(t + '\n' + d2);
 }
-
-function testIter() {
-
-  var tz = tzmap;
-  var keys = Object.entries(tzmap);
-   for (const [key, value] of keys) { 
-     console.log(key); 
-   }
-}
-
-
-function throwAway() {
- 
- var arr = ["e","f","g"];
- var arr2 = ["x","y","z"];
- var schedulees = [].concat("a,b,c")
-            .concat(arr)
-            .concat(arr2);
-Logger.log(schedulees);
-
-} 
